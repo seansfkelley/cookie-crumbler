@@ -16,30 +16,31 @@ export interface HostnameRule_1 {
   cookieNameWhitelist?: string[];
 }
 
-export interface LogEntry_1 {
+// export interface LogEntry_1 {
+//   hostname: string;
+//   count: number;
+// }
+
+export interface LogBatch_1 {
   timestamp: string;
-  deletions: {
-    hostname: string;
-    count: number;
-  }[];
-  preservations: {
-    hostname: string;
-    count: number;
-  }[];
+  deletions: Record<string, number>;
+  preservations: Record<string, number>;
 }
 
 export interface State_1 extends StateVersion<1> {
   settings: Settings_1;
   rules: HostnameRule_1[];
-  logs: LogEntry_1[];
+  logs: LogBatch_1[];
 }
 
 export function state0to1(_state: null | undefined): State_1 {
   return {
     version: 1,
     settings: {
-      enableAutomaticDeletion: false,
-      automaticDeletionDelayMillis: 60000,
+      // TODO: Should default off.
+      enableAutomaticDeletion: true,
+      // TODO: Should default higher.
+      automaticDeletionDelayMillis: 500,
       enableLocalStorageDeletion: false,
       localStorageBehavior: "all-domains",
       enableLogging: false,
