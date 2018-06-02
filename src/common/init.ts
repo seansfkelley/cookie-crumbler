@@ -1,4 +1,4 @@
-import 'chrome-extension-async';
+import "chrome-extension-async";
 
 (window as any).browser = (window as any).browser || (window as any).chrome;
 
@@ -8,7 +8,7 @@ import 'chrome-extension-async';
 //   console.error(e);
 // });
 
-window.addEventListener('error', e => {
+window.addEventListener("error", e => {
   e.preventDefault();
   console.error(e);
 });

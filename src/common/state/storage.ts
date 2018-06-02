@@ -14,7 +14,7 @@ export class BrowserStorageEngine implements StorageEngine {
   private listeners: StateChangeListener[] = [];
 
   constructor() {
-    browser.storage.onChanged.addListener((_changes: StorageChangeEvent<State>, areaName) => {
+    browser.storage.onChanged.addListener((_changes, areaName) => {
       if (areaName === "local") {
         this.fetchStateAndNotify(this.listeners);
       }
@@ -22,8 +22,8 @@ export class BrowserStorageEngine implements StorageEngine {
   }
 
   private fetchStateAndNotify(listeners: StateChangeListener[]) {
-    browser.storage.local.get<State>(null)
-      .then(state => {
+    browser.storage.local.get(null)
+      .then((state: State) => {
         listeners.forEach(l => l(state));
       });
   }
@@ -34,9 +34,9 @@ export class BrowserStorageEngine implements StorageEngine {
   }
 
   public transitionState = (updater: (state: State) => State) => {
-    return browser.storage.local.get<State>(null)
-      .then(state => {
-        return browser.storage.local.set<State>(updater(state));
+    return browser.storage.local.get(null)
+      .then((state: State) => {
+        return browser.storage.local.set(updater(state));
       });
   }
 }

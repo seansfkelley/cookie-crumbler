@@ -1,11 +1,13 @@
 import { StateVersion } from "./version";
 
 export interface Settings_1 {
-  enableLocalStorageDeleting: boolean;
+  enableAutomaticDeletion: boolean;
+  automaticDeletionDelayMillis: number;
+  enableLocalStorageDeletion: boolean;
   localStorageBehavior: "all-domains" | "matching-cookies";
   enableLogging: boolean;
   enableNotifications: boolean;
-  enableInTabDeleting: boolean;
+  enableInTabDeletion: boolean;
 }
 
 export interface HostnameRule_1 {
@@ -36,11 +38,13 @@ export function state0to1(_state: null | undefined): State_1 {
   return {
     version: 1,
     settings: {
-      enableLocalStorageDeleting: false,
+      enableAutomaticDeletion: false,
+      automaticDeletionDelayMillis: 60000,
+      enableLocalStorageDeletion: false,
       localStorageBehavior: "all-domains",
       enableLogging: false,
       enableNotifications: false,
-      enableInTabDeleting: false,
+      enableInTabDeletion: false,
     },
     rules: [],
     logs: [],

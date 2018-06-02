@@ -10,9 +10,9 @@ export interface Props {
 export class Popup extends React.PureComponent<Props, {}> {
   render() {
     return (
-      <div>
-
-      </div>
+      <pre>
+        {JSON.stringify(this.props.state, null, 2)}
+      </pre>
     );
   }
 }
