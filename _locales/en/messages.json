@@ -1,0 +1,7 @@
+{
+  "Automatically_delete_cookies_you_dont_want": {
+    "message": "Automatically delete cookies you don't want.",
+    "description": "A description of the extension.",
+    "test_skip_reference_check": true
+  }
+}
