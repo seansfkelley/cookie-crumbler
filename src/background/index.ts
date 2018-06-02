@@ -1,10 +1,8 @@
-import '../common/init/extensionContext';
+import '../common/init';
 
-import { updateStateShapeIfNecessary, onStoredStateChange } from "../common/state";
+import { getStorageEngine } from "../common/state";
 
-updateStateShapeIfNecessary()
-.then(() => {
-  onStoredStateChange(state => {
+getStorageEngine()
+  .then(engine => {
     // Do things here I guess?
   });
-});

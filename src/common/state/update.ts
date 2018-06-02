@@ -1,5 +1,6 @@
 import { StateVersion } from "./version";
 import { state0to1 } from "./1";
+import { State } from "./latest";
 
 const ORDERED_TRANSFORMS: ((state: StateVersion<number> | null | undefined) => StateVersion<number>)[] = [
   state0to1,
@@ -7,7 +8,7 @@ const ORDERED_TRANSFORMS: ((state: StateVersion<number> | null | undefined) => S
 
 const LATEST_VERSION = ORDERED_TRANSFORMS.length;
 
-export function updateStateToLatest(state: StateVersion<number> | null | undefined) {
+export function updateStateToLatest(state: StateVersion<number> | null | undefined): State {
   const version = state ? state.version : 0;
 
   if (version > LATEST_VERSION) {
@@ -18,5 +19,5 @@ export function updateStateToLatest(state: StateVersion<number> | null | undefin
     state = transform(state);
   });
 
-  return state;
+  return state as State;
 }

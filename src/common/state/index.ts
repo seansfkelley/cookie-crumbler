@@ -1,38 +1,15 @@
-import { once } from "lodash-es";
-
 import { updateStateToLatest } from "./update";
-import { State } from "./latest";
+import { BrowserStorageEngine, StorageEngine } from "./storage";
 
 export * from "./latest";
 export { StateService } from "./service";
+export { StorageEngine } from "./storage";
 
-let stateListeners: ((state: State) => void)[] = [];
+export function getStorageEngine(): Promise<StorageEngine> {
+  const engine = new BrowserStorageEngine();
 
-const maybeAttachSharedStateListener = once(() => {
-  browser.storage.onChanged.addListener((_changes: StorageChangeEvent<State>, areaName) => {
-    if (areaName === 'local') {
-      fetchStateAndNotify(stateListeners);
-    }
-  });
-});
-
-export function updateStateShapeIfNecessary() {
-  return browser.storage.local.get<any>(null)
-    .then(updateStateToLatest)
-    .then(updatedState => {
-      return browser.storage.local.set(updatedState);
-    });
+  return engine
+    .transitionState(updateStateToLatest)
+    .then(() => engine);
 }
 
-export function onStoredStateChange(listener: (state: State) => void) {
-  maybeAttachSharedStateListener();
-  stateListeners.push(listener);
-  fetchStateAndNotify([ listener ]);
-}
-
-function fetchStateAndNotify(listeners: ((state: State) => void)[]) {
-  return browser.storage.local.get<State>(null)
-    .then(state => {
-      listeners.forEach(l => l(state));
-    });
-}
