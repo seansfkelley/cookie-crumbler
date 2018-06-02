@@ -1,9 +1,11 @@
 import '../common/init';
 
-import { getStorageEngine, StorageEngine, State } from "../common/state";
+import { getStorageEngine, State } from "../common/state";
 import { deleteCookies } from "../common/deletion";
 
-function initialize(engine: StorageEngine) {
+async function initialize() {
+  const engine = await getStorageEngine();
+
   let state: State;
   let cleanTimeoutId: number | undefined;
 
@@ -36,4 +38,4 @@ function initialize(engine: StorageEngine) {
   });
 }
 
-getStorageEngine().then(initialize);
+initialize();

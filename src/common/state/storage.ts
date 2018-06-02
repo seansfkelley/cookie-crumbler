@@ -21,11 +21,9 @@ export class BrowserStorageEngine implements StorageEngine {
     });
   }
 
-  private fetchStateAndNotify(listeners: StateChangeListener[]) {
-    browser.storage.local.get(null)
-      .then((state: State) => {
-        listeners.forEach(l => l(state));
-      });
+  private async fetchStateAndNotify(listeners: StateChangeListener[]) {
+    const state = await browser.storage.local.get(null) as State;
+    listeners.forEach(l => l(state));
   }
 
   public addChangeListener = (listener: StateChangeListener) => {
@@ -33,10 +31,8 @@ export class BrowserStorageEngine implements StorageEngine {
     this.fetchStateAndNotify([ listener ]);
   }
 
-  public transitionState = (updater: (state: State) => State) => {
-    return browser.storage.local.get(null)
-      .then((state: State) => {
-        return browser.storage.local.set(updater(state));
-      });
+  public transitionState = async (updater: (state: State) => State) => {
+    const state = await browser.storage.local.get(null) as State;
+    return browser.storage.local.set(updater(state));
   }
 }

@@ -5,11 +5,9 @@ export * from "./latest";
 export { StateService } from "./service";
 export { StorageEngine } from "./storage";
 
-export function getStorageEngine(): Promise<StorageEngine> {
+export async function getStorageEngine(): Promise<StorageEngine> {
   const engine = new BrowserStorageEngine();
-
-  return engine
-    .transitionState(updateStateToLatest)
-    .then(() => engine);
+  await engine.transitionState(updateStateToLatest);
+  return engine;
 }
 
