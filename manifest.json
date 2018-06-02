@@ -10,9 +10,13 @@
     ]
   },
   "permissions": [
-    "contextMenus",
-    "storage",
+    "activeTab",
+    "browsingData",
+    "cookies",
     "notifications",
+    "privacy",
+    "storage",
+    "tabs",
     "http://*/*",
     "https://*/*"
   ],
