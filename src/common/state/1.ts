@@ -41,13 +41,24 @@ export function state0to1(_state: null | undefined): State_1 {
       enableAutomaticDeletion: true,
       // TODO: Should default higher.
       automaticDeletionDelayMillis: 500,
-      enableLocalStorageDeletion: false,
-      localStorageBehavior: "all-domains",
-      enableLogging: false,
-      enableNotifications: false,
+      enableLocalStorageDeletion: true,
+      localStorageBehavior: "matching-cookies",
+      enableLogging: true,
+      enableNotifications: true,
       enableInTabDeletion: false,
     },
-    rules: [],
+    rules: [
+      {
+        hostname: "google.com",
+        includeSubdomains: true,
+      }, {
+        hostname: "nytimes.com",
+        includeSubdomains: false,
+      }, {
+        hostname: "github.com",
+        includeSubdomains: true,
+      }
+    ],
     logs: [],
   };
 }
