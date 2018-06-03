@@ -25,9 +25,15 @@ export class StateService {
   public addLogBatch(log: LogBatch) {
     this.transition(state => spread(state, {
       logs: [
-        ...state.logs,
         log,
+        ...state.logs,
       ],
+    }));
+  }
+
+  public resetLogs(logs: LogBatch[]) {
+    this.transition(state => spread(state, {
+      logs,
     }));
   }
 }
