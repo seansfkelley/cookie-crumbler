@@ -77,49 +77,7 @@ ul.settings-list {
   }
 }
 
-.protocol-setting,
-.domain-setting {
-  flex-shrink: 0;
-}
-
-.host-setting {
-  flex: 1;
-}
-
-.port-setting {
-  width: 80px;
-}
-
-.connection-test-result {
-  margin-left: 10px;
-
-  .fa {
-    margin-right: 5px;
-    font-size: 14px;
-  }
-}
-
-.polling-interval {
-  width: 60px;
-  margin: 0 5px;
-}
-
-.wrong-polling-interval {
-  margin-left: 5px;
-}
-
-textarea.debugging-output {
-  width: calc(100% - 20px);
-  height: 3em;
-}
-
-.save-settings-footer {
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-
-  .save-result {
-    margin-right: 10px;
-  }
+.settings-list-checkbox input[disabled] + label {
+  color: #977799;
+  opacity: .5;
 }

@@ -1,20 +1,20 @@
 import { values, sum } from "lodash-es";
 
-import { HostnameRule, LogBatch } from "./state";
+import { DomainWhitelistRule, LogBatch } from "./state";
 import { getRootDomain, getHostname } from "./util";
 import { logger } from "./logger";
 
-export function shouldPreserve(domain: string, rules: HostnameRule[], openRootDomains: Set<string>) {
+export function shouldPreserve(domain: string, rules: DomainWhitelistRule[], openRootDomains: Set<string>) {
   const normalizedDomain = domain.replace(/^\./, "");
   return (
     openRootDomains.has(getRootDomain(normalizedDomain)) ||
     rules.some(r =>
-      r.hostname === normalizedDomain || (r.includeSubdomains && normalizedDomain.endsWith(r.hostname))
+      r.domain === normalizedDomain || (r.whitelistSubdomains && normalizedDomain.endsWith(r.domain))
     )
   );
 }
 
-export async function deleteCookies(rules: HostnameRule[]): Promise<LogBatch> {
+export async function deleteCookies(rules: DomainWhitelistRule[]): Promise<LogBatch> {
   logger.info(`starting cookie deletion`);
 
   const openRootDomains = new Set(

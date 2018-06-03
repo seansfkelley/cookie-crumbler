@@ -10,10 +10,11 @@ export interface Settings_1 {
   enableInTabDeletion: boolean;
 }
 
-export interface HostnameRule_1 {
-  hostname: string;
-  includeSubdomains: boolean;
-  cookieNameWhitelist?: string[];
+export interface DomainWhitelistRule_1 {
+  domain: string;
+  whitelistSubdomains: boolean;
+  cleanOnBrowserRestart: boolean;
+  onlyWhitelistCookieNames?: string[];
 }
 
 // export interface LogEntry_1 {
@@ -29,7 +30,7 @@ export interface LogBatch_1 {
 
 export interface State_1 extends StateVersion<1> {
   settings: Settings_1;
-  rules: HostnameRule_1[];
+  rules: DomainWhitelistRule_1[];
   logs: LogBatch_1[];
 }
 
@@ -49,14 +50,17 @@ export function state0to1(_state: null | undefined): State_1 {
     },
     rules: [
       {
-        hostname: "google.com",
-        includeSubdomains: true,
+        domain: "google.com",
+        whitelistSubdomains: true,
+        cleanOnBrowserRestart: true,
       }, {
-        hostname: "nytimes.com",
-        includeSubdomains: false,
+        domain: "nytimes.com",
+        whitelistSubdomains: false,
+        cleanOnBrowserRestart: false,
       }, {
-        hostname: "github.com",
-        includeSubdomains: true,
+        domain: "github.com",
+        whitelistSubdomains: true,
+        cleanOnBrowserRestart: true,
       }
     ],
     logs: [],

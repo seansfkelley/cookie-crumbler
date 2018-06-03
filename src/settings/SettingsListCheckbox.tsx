@@ -12,7 +12,7 @@ export class SettingsListCheckbox extends React.PureComponent<Props, {}> {
   render() {
     const id = uniqueId("checkbox-id-");
     return (
-      <li>
+      <li className="settings-list-checkbox">
         <input
           id={id}
           type="checkbox"

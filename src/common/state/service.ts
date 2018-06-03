@@ -1,5 +1,5 @@
 import { spread } from "../lang";
-import { State, HostnameRule, LogBatch, Settings } from "./latest";
+import { State, DomainWhitelistRule, LogBatch, Settings } from "./latest";
 
 export class StateService {
   constructor(private transition: (updater: (state: State) => State) => void) {}
@@ -13,7 +13,7 @@ export class StateService {
     }));
   }
 
-  public addRule(rule: HostnameRule) {
+  public addRule(rule: DomainWhitelistRule) {
     this.transition(state => spread(state, {
       rules: [
         ...state.rules,

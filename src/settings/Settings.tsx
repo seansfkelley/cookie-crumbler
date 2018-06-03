@@ -15,7 +15,7 @@ export class Settings extends React.PureComponent<Props, {}> {
       <div className="settings-form">
         <header>
           <h3>Automatic Deletion</h3>
-          <p>Automatically delete cookies and (if enabled) LocalStorage as you browse away from sites.</p>
+          <p>Automatically delete cookies and (if enabled) Local Storage as you browse away from sites.</p>
         </header>
         <ul className="settings-list">
           {this.renderToggleableSetting(
@@ -29,9 +29,9 @@ export class Settings extends React.PureComponent<Props, {}> {
           )}
         </ul>
         <header>
-          <h3>LocalStorage</h3>
-          <p>LocalStorage can be used for "supercookies" or other tracking data.</p>
-          <p>Please note that browser support for controlling LocalStorage through extensions is minimal. TODO: Explain more.</p>
+          <h3>Local Storage</h3>
+          <p>Local Storage can be used for "supercookies" or other tracking data.</p>
+          <p>Please note that browser support for controlling Local Storage through extensions is minimal. TODO: Explain more.</p>
         </header>
         <ul className="settings-list">
           {this.renderToggleableSetting(
