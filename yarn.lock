@@ -57,6 +57,10 @@
   dependencies:
     csstype "^2.2.0"
 
+"@types/tldjs@^1.7.1":
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/@types/tldjs/-/tldjs-1.7.1.tgz#05d3ef3cb6e03cf3adf1e4a043c1470cf20e1799"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -2225,6 +2229,12 @@ tar@^2.0.0:
     block-stream "*"
     fstream "^1.0.2"
     inherits "2"
+
+tldjs@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/tldjs/-/tldjs-2.3.1.tgz#cf09c3eb5d7403a9e214b7d65f3cf9651c0ab039"
+  dependencies:
+    punycode "^1.4.1"
 
 tough-cookie@~2.3.0, tough-cookie@~2.3.3:
   version "2.3.4"

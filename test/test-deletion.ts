@@ -23,15 +23,13 @@ describe("deletion", () => {
         rulesWithoutTlds: [],
         openRootDomainsWithoutTlds: [ "example" ],
         expected: true,
-      },
-      {
+      }, {
         descriptor: "there is a parent domain match in the open root domains",
         domainWithoutTld: "subdomain.example",
         rulesWithoutTlds: [],
         openRootDomainsWithoutTlds: [ "example" ],
         expected: true,
-      },
-      {
+      }, {
         descriptor: "there is an exact match in a rule",
         domainWithoutTld: "example",
         rulesWithoutTlds: [
@@ -42,8 +40,7 @@ describe("deletion", () => {
         ],
         openRootDomainsWithoutTlds: [],
         expected: true,
-      },
-      {
+      }, {
         descriptor: "there is a parent domain match in a rule that allows subdomains",
         domainWithoutTld: "subdomain.example",
         rulesWithoutTlds: [
@@ -54,15 +51,13 @@ describe("deletion", () => {
         ],
         openRootDomainsWithoutTlds: [],
         expected: true,
-      },
-      {
+      }, {
         descriptor: "no rules or open root domains are provided",
         domainWithoutTld: "example",
         rulesWithoutTlds: [],
         openRootDomainsWithoutTlds: [],
         expected: false,
-      },
-      {
+      }, {
         descriptor: "there is a parent domain match in a rule that disallows subdomains",
         domainWithoutTld: "subdomain.example",
         rulesWithoutTlds: [

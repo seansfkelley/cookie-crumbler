@@ -1,1 +1,1 @@
-import '../common/init/extensionContext';
+import "../common/init";

@@ -26,9 +26,11 @@
     "@types/mocha": "^2.2.44",
     "@types/react": "^16.0.20",
     "@types/react-dom": "^16.0.2",
+    "@types/tldjs": "^1.7.1",
     "chai": "^4.1.2",
     "glob": "^7.1.2",
     "mocha": "^4.0.1",
+    "node-sass": "^4.5.3",
     "rimraf": "^2.6.1",
     "rollup": "^0.41.6",
     "rollup-plugin-commonjs": "^8.0.2",
@@ -44,8 +46,8 @@
     "chrome-extension-async": "^3.2.4",
     "classnames": "^2.2.5",
     "lodash-es": "^4.17.4",
-    "node-sass": "^4.5.3",
     "react": "^16.3.0",
-    "react-dom": "^16.3.0"
+    "react-dom": "^16.3.0",
+    "tldjs": "^2.3.1"
   }
 }

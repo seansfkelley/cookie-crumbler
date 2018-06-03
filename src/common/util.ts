@@ -1,6 +1,10 @@
-export function isIpAddress(_hostname: string) {
-  // TODO for ipv4 and ipv6
-  return false;
+import { getDomain } from "tldjs";
+
+const IPV4_REGEX = /^(\d{1,3}\.){3,3}\d{1,3}$/;
+const IPV6_REGEX = /^(::)?(((\d{1,3}\.){3}(\d{1,3}){1})?([0-9a-f]){0,4}:{0,2}){1,8}(::)?$/i;
+
+export function isIpAddress(hostname: string) {
+  return IPV4_REGEX.test(hostname) || IPV6_REGEX.test(hostname);
 }
 
 export function getHostname(url: string) {
@@ -8,10 +12,5 @@ export function getHostname(url: string) {
 }
 
 export function getRootDomain(hostname: string) {
-  if (isIpAddress(hostname)) {
-    return hostname;
-  } else {
-    // TODO: Handle nontrivial cases (two-part TLDs, localhost, trailing dots, etc.)
-    return hostname.split(".").slice(-2).join(".");
-  }
+  return isIpAddress(hostname) ? hostname : getDomain(hostname)!;
 }
