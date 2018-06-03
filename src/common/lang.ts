@@ -9,3 +9,5 @@ export function spread<T, K extends keyof T>(
 ): T {
   return Object.assign({}, original, override, ...addlOverrides);
 }
+
+export type PropertyNamesOfType<T, U> = { [K in keyof T]: T[K] extends U ? K : never }[keyof T];

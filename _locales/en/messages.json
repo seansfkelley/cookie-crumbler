@@ -55,5 +55,25 @@
         "example": "10"
       }
     }
+  },
+  "Delete_local_data_automatically": {
+    "message": "Delete local data automatically",
+    "description": "Label in settings page."
+  },
+  "Delete_data_when_changing_tabs": {
+    "message": "Delete data when changing tabs",
+    "description": "Label in settings page."
+  },
+  "Delete_LocalStorage_data": {
+    "message": "Delete LocalStorage data",
+    "description": "Label in settings page."
+  },
+  "Log_deleted_local_data": {
+    "message": "Log deleted local data",
+    "description": "Label in settings page."
+  },
+  "Show_deletion_notifications": {
+    "message": "Show deletion notifications",
+    "description": "Label in settings page."
   }
 }
