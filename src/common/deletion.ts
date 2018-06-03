@@ -17,7 +17,7 @@ export async function deleteCookies(rules: HostnameRule[]): Promise<LogBatch> {
 
   const openRootDomains = new Set(
     (await browser.tabs.query({ windowType: "normal" }))
-      .filter(({ url }) => url != null && (url.startsWith("http://") || url.startsWith("https://")))
+      .filter(({ url }) => url != null && (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("file://")))
       // TODO: Consider normalizing out URLs that start with www.
       .map(({ url }) => getRootDomain(getHostname(url!)))
   );
@@ -35,7 +35,16 @@ export async function deleteCookies(rules: HostnameRule[]): Promise<LogBatch> {
         (await browser.cookies.getAll({ storeId }))
           .map(async cookie => {
             const normalizedDomain = cookie.domain.replace(/^\./, "");
-            if (shouldPreserve(normalizedDomain, rules, openRootDomains)) {
+            if (normalizedDomain === "") {
+              // These cookies are set by local files, which have no hostname. (Ever notice that a local
+              // file is opened with 3 slashes...? That's the missing hostname.)
+              deletions["(local file)"] = (deletions["(local file)"] || 0) + 1;
+              return browser.cookies.remove({
+                url: `file://${cookie.path}`,
+                name: cookie.name,
+                storeId,
+              });
+            } else if (shouldPreserve(normalizedDomain, rules, openRootDomains)) {
               preservations[normalizedDomain] = (preservations[normalizedDomain] || 0) + 1;
               return Promise.resolve();
             } else {
