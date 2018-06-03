@@ -1,6 +1,8 @@
-import { HostnameRule, LogBatch } from "./state";
+import { values, sum } from "lodash-es";
 
+import { HostnameRule, LogBatch } from "./state";
 import { getRootDomain, getHostname } from "./util";
+import { logger } from "./logger";
 
 export function shouldPreserve(domain: string, rules: HostnameRule[], openRootDomains: Set<string>) {
   const normalizedDomain = domain.replace(/^\./, "");
@@ -13,13 +15,15 @@ export function shouldPreserve(domain: string, rules: HostnameRule[], openRootDo
 }
 
 export async function deleteCookies(rules: HostnameRule[]): Promise<LogBatch> {
-  const timestamp = new Date().toISOString();
+  logger.info(`starting cookie deletion`);
 
   const openRootDomains = new Set(
     (await browser.tabs.query({ windowType: "normal" }))
       .filter(({ url }) => url != null && (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("file://")))
       .map(({ url }) => getRootDomain(getHostname(url!)))
   );
+
+  logger.debug("open root domains", openRootDomains);
 
   const deletions: Record<string, number> = {};
   const preservations: Record<string, number> = {};
@@ -34,8 +38,10 @@ export async function deleteCookies(rules: HostnameRule[]): Promise<LogBatch> {
   await Promise.all((await browser.cookies.getAllCookieStores())
     .map(async store => {
       const storeId = store.id;
+      const cookies = await browser.cookies.getAll({ storeId });
+      logger.debug(`cookie store ${storeId} has ${cookies.length} cookies`);
       return Promise.all(
-        (await browser.cookies.getAll({ storeId }))
+        cookies
           .map(async cookie => {
             // TODO: Consider normalizing out URLs that start with www.
             const normalizedDomain = cookie.domain.replace(/^\./, "");
@@ -64,8 +70,10 @@ export async function deleteCookies(rules: HostnameRule[]): Promise<LogBatch> {
     })
   );
 
+  logger.info(`deleted ${sum(values(deletions))} cookies and preserved ${sum(values(preservations))} cookies`);
+
   return {
-    timestamp,
+    timestamp: new Date().toISOString(),
     deletions,
     preservations,
   };

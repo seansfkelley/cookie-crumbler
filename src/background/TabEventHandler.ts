@@ -2,6 +2,7 @@ import { values, sum } from "lodash-es";
 
 import { State, StateService } from "../common/state";
 import { deleteCookies } from "../common/deletion";
+import { logger } from "../common/logger";
 
 export class TabEventHandler {
   private cleanTimeoutId: number | undefined;
@@ -24,6 +25,7 @@ export class TabEventHandler {
 
   public onRemovedListener = () => {
     if (this.state.settings.enableAutomaticDeletion && this.cleanTimeoutId == null) {
+      logger.debug("automatic deletion enabled and no pending deletion, will start new one");
       // Refer to window specifically because we're pulling in types for Node's globals, which are different...
       // TODO: Also use alarms, because browsers will unload the extension after a certain amount of time...
       this.cleanTimeoutId = window.setTimeout(async () => {
@@ -31,9 +33,8 @@ export class TabEventHandler {
 
         const log = await deleteCookies(this.state!.rules);
         const deletionCount = sum(values(log.deletions));;
-        const preservationCount = sum(values(log.preservations));
 
-        if (deletionCount > 0 || preservationCount > 0) {
+        if (deletionCount > 0) {
           this.service.addLogBatch(log);
         }
 
