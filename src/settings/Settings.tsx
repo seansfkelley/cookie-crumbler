@@ -13,10 +13,10 @@ export class Settings extends React.PureComponent<Props, {}> {
   render() {
     return (
       <div className="settings-form">
-        {/* <header>
-          <h3>{browser.i18n.getMessage('Connection')}</h3>
-          <p>{browser.i18n.getMessage('Please_note_that_QuickConnect_IDs_are_not_currently_supported')}</p>
-        </header> */}
+        <header>
+          <h3>Automatic Deletion</h3>
+          <p>Automatically delete cookies and (if enabled) LocalStorage as you browse away from sites.</p>
+        </header>
         <ul className="settings-list">
           {this.renderToggleableSetting(
             "enableAutomaticDeletion",
@@ -25,11 +25,24 @@ export class Settings extends React.PureComponent<Props, {}> {
           {this.renderToggleableSetting(
             "enableInTabDeletion",
             browser.i18n.getMessage("Delete_data_when_changing_tabs"),
+            this.props.state.settings.enableAutomaticDeletion,
           )}
+        </ul>
+        <header>
+          <h3>LocalStorage</h3>
+          <p>LocalStorage can be used for "supercookies" or other tracking data.</p>
+          <p>Please note that browser support for controlling LocalStorage through extensions is minimal. TODO: Explain more.</p>
+        </header>
+        <ul className="settings-list">
           {this.renderToggleableSetting(
             "enableLocalStorageDeletion",
             browser.i18n.getMessage("Delete_LocalStorage_data"),
           )}
+        </ul>
+        <header>
+          <h3>Logging and Notifications</h3>
+        </header>
+        <ul className="settings-list">
           {this.renderToggleableSetting(
             "enableLogging",
             browser.i18n.getMessage("Log_deleted_local_data"),
@@ -43,9 +56,10 @@ export class Settings extends React.PureComponent<Props, {}> {
     );
   }
 
-  private renderToggleableSetting<K extends PropertyNamesOfType<SettingsObject, boolean>>(key: K, label: string) {
+  private renderToggleableSetting<K extends PropertyNamesOfType<SettingsObject, boolean>>(key: K, label: string, enabled: boolean = true) {
     return (
       <SettingsListCheckbox
+        enabled={enabled}
         checked={this.props.state.settings[key]}
         onChange={() => {
           this.props.service.setSetting(key, !this.props.state.settings[key]);
