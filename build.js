@@ -42,13 +42,14 @@ function bundleAndMaybeWatch(baseDirectory) {
       resolve({
         main: true,
         browser: true,
-        preferBuiltins: false
+        preferBuiltins: true
       }),
       json(),
       commonjs({
         namedExports: {
           'react': [ 'Component', 'PureComponent', 'createElement', 'Fragment' ],
-          'react-dom': [ 'render' ]
+          'react-dom': [ 'render' ],
+          'tldjs': [ 'getDomain' ]
         }
       }),
       globals(),
