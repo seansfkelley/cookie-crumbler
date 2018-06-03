@@ -2,11 +2,11 @@ import { HostnameRule, LogBatch } from "./state";
 
 import { getRootDomain, getHostname } from "./util";
 
-export function shouldDelete(domain: string, rules: HostnameRule[], openRootDomains: Set<string>) {
+export function shouldPreserve(domain: string, rules: HostnameRule[], openRootDomains: Set<string>) {
   return (
     openRootDomains.has(getRootDomain(domain)) ||
     rules.some(r =>
-      r.hostname === domain || (r.includeSubdomains && domain.endsWith(r.hostname))
+      r.hostname === domain.replace(/^\]./, "") || (r.includeSubdomains && domain.endsWith(r.hostname))
     )
   );
 }
@@ -36,16 +36,16 @@ export async function deleteCookies(rules: HostnameRule[]): Promise<LogBatch> {
         (await browser.cookies.getAll({ storeId }))
           .map(async cookie => {
             const normalizedDomain = cookie.domain.replace(/^\]./, "");
-            if (shouldDelete(normalizedDomain, rules, openRootDomains)) {
+            if (shouldPreserve(normalizedDomain, rules, openRootDomains)) {
+              preservations[normalizedDomain] = (preservations[normalizedDomain] || 0) + 1;
+              return Promise.resolve();
+            } else {
               deletions[normalizedDomain] = (deletions[normalizedDomain] || 0) + 1;
               return browser.cookies.remove({
                 url: `http${cookie.secure ? "s" : ""}://${cookie.domain}${cookie.path}`,
                 name: cookie.name,
                 storeId,
               });
-            } else {
-              preservations[normalizedDomain] = (preservations[normalizedDomain] || 0) + 1;
-              return Promise.resolve();
             }
           })
       );
