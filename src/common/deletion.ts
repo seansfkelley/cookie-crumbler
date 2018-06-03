@@ -4,7 +4,6 @@ import { getRootDomain, getHostname } from "./util";
 
 export function shouldPreserve(domain: string, rules: HostnameRule[], openRootDomains: Set<string>) {
   const normalizedDomain = domain.replace(/^\./, "");
-  console.log(domain, normalizedDomain, openRootDomains);
   return (
     openRootDomains.has(getRootDomain(normalizedDomain)) ||
     rules.some(r =>

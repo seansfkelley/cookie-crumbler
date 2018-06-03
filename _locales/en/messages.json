@@ -3,5 +3,57 @@
     "message": "Automatically delete cookies you don't want.",
     "description": "A description of the extension.",
     "test_skip_reference_check": true
+  },
+  "ZcountZ_Cookies_Deleted": {
+    "message": "$COUNT$ Cookie(s) Deleted",
+    "description": "Notification title.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "10"
+      }
+    }
+  },
+  "from_ZsiteoneZ": {
+    "message": "from $SITEONE$",
+    "description": "Notification message when only one site is cleared.",
+    "placeholders": {
+      "siteone": {
+        "content": "$1",
+        "example": "google.com"
+      }
+    }
+  },
+  "from_ZsiteoneZ_and_ZsitetwoZ": {
+    "message": "from $SITEONE$ and $SITETWO$",
+    "description": "Notification message when only two sites are cleared.",
+    "placeholders": {
+      "siteone": {
+        "content": "$1",
+        "example": "google.com"
+      },
+      "sitetwo": {
+        "content": "$2",
+        "example": "google.com"
+      }
+    }
+  },
+  "from_ZsiteoneZ_ZsitetwoZ_and_ZcountZ_others": {
+    "message": "from $SITEONE$, $SITETWO$ and $COUNT$ others",
+    "description": "Notification message when many sites are cleared.",
+    "placeholders": {
+      "siteone": {
+        "content": "$1",
+        "example": "google.com"
+      },
+      "sitetwo": {
+        "content": "$2",
+        "example": "google.com"
+      },
+      "count": {
+        "content": "$3",
+        "example": "10"
+      }
+    }
   }
 }
