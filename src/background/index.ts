@@ -17,6 +17,7 @@ async function initialize() {
 
     if (!state.settings.enableAutomaticDeletion) {
       window.clearTimeout(cleanTimeoutId);
+      cleanTimeoutId = undefined;
     }
   });
 
@@ -36,12 +37,17 @@ async function initialize() {
       // TODO: Also use alarms, because browsers will unload the extension after a certain amount of time...
       cleanTimeoutId = window.setTimeout(async () => {
         window.clearTimeout(cleanTimeoutId);
+        cleanTimeoutId = undefined;
+
         const log = await deleteCookies(state!.rules);
-        service.addLogBatch(log);
+        const deletionCount = sum(values(log.deletions));;
+        const preservationCount = sum(values(log.preservations));
 
-        const totalCount = sum(values(log.deletions));
+        if (deletionCount > 0 || preservationCount > 0) {
+          service.addLogBatch(log);
+        }
 
-        if (state!.settings.enableNotifications && totalCount > 0) {
+        if (state!.settings.enableNotifications && deletionCount > 0) {
           const domains = Object.keys(log.deletions).sort();
           const message = (function() {
             if (domains.length === 1) {
@@ -55,7 +61,7 @@ async function initialize() {
 
           browser.notifications.create(undefined!, {
             type: "basic",
-            title: browser.i18n.getMessage("ZcountZ_Cookies_Deleted", [ totalCount ]),
+            title: browser.i18n.getMessage("ZcountZ_Cookies_Deleted", [ deletionCount ]),
             message,
             iconUrl: browser.extension.getURL("icons/icon-256.png"),
           });

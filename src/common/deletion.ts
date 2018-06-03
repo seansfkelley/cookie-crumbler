@@ -28,13 +28,13 @@ export async function deleteCookies(rules: HostnameRule[]): Promise<LogBatch> {
   // We need to enumerate all cookies stores that exist, else we'll end up just clearing the one from the
   // "current execution context".
   // TODO: How does firstPartyDomain factor into this?
-  Promise.all((await browser.cookies.getAllCookieStores())
+  await Promise.all((await browser.cookies.getAllCookieStores())
     .map(async store => {
       const storeId = store.id;
       return Promise.all(
         (await browser.cookies.getAll({ storeId }))
           .map(async cookie => {
-            const normalizedDomain = cookie.domain.replace(/^\]./, "");
+            const normalizedDomain = cookie.domain.replace(/^\./, "");
             if (shouldPreserve(normalizedDomain, rules, openRootDomains)) {
               preservations[normalizedDomain] = (preservations[normalizedDomain] || 0) + 1;
               return Promise.resolve();
