@@ -44,11 +44,15 @@
     "typescript": "^2.6.2"
   },
   "dependencies": {
+    "@blueprintjs/core": "^2.3.1",
+    "@blueprintjs/icons": "^2.2.1",
     "chrome-extension-async": "^3.2.4",
     "classnames": "^2.2.5",
+    "dom4": "^2.0.1",
     "lodash-es": "^4.17.4",
     "react": "^16.3.0",
     "react-dom": "^16.3.0",
+    "react-transition-group": "^2.3.1",
     "tldjs": "^2.3.1",
     "tslib": "^1.9.2"
   }

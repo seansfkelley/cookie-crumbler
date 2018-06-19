@@ -1,7 +1,5 @@
-import { values, sum } from "lodash-es";
-
 import { State, StateService } from "../common/state";
-import { deleteCookies } from "../common/deletion";
+import { deleteCookiesAndNotify } from "../common/actions";
 import { logger } from "../common/logger";
 import { getHostname } from "../common/util";
 
@@ -41,33 +39,7 @@ export class TabEventHandler {
       // TODO: Also use alarms, because browsers will unload the extension after a certain amount of time...
       this.cleanTimeoutId = window.setTimeout(async () => {
         this.clearTimeout();
-
-        const log = await deleteCookies(this.state!.rules);
-        const deletionCount = sum(values(log.deletions));;
-
-        if (deletionCount > 0) {
-          this.service.addLogBatch(log);
-        }
-
-        if (this.state!.settings.enableNotifications && deletionCount > 0) {
-          const domains = Object.keys(log.deletions).sort();
-          const message = (function() {
-            if (domains.length === 1) {
-              return browser.i18n.getMessage("from_ZsiteoneZ", domains);
-            } else if (domains.length === 2) {
-              return browser.i18n.getMessage("from_ZsiteoneZ_and_ZsitetwoZ", domains);
-            } else {
-              return browser.i18n.getMessage("from_ZsiteoneZ_ZsitetwoZ_and_ZcountZ_others", [ domains[0], domains[1], domains.length - 2 ]);
-            }
-          })();
-
-          browser.notifications.create(undefined!, {
-            type: "basic",
-            title: browser.i18n.getMessage("ZcountZ_Cookies_Deleted", [ deletionCount ]),
-            message,
-            iconUrl: browser.extension.getURL("icons/icon-256.png"),
-          });
-        }
+        deleteCookiesAndNotify(this.state, this.service);
       }, this.state.settings.automaticDeletionDelayMillis);
     }
   }

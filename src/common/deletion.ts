@@ -20,7 +20,11 @@ export async function deleteCookies(rules: DomainWhitelistRule[]): Promise<LogBa
   const openRootDomains = new Set(
     (await browser.tabs.query({ windowType: "normal" }))
       .filter(({ url }) => url != null && (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("file://")))
-      .map(({ url }) => getRootDomain(getHostname(url!)))
+      .map(({ url }) => {
+        const hostname = getHostname(url!);
+        return hostname ? getRootDomain(hostname) : undefined;
+      })
+      .filter(rootDomain => rootDomain != null) as string[],
   );
 
   logger.debug("open root domains", openRootDomains);

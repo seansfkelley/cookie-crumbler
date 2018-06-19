@@ -1,4 +1,3 @@
-const path = require('path');
 const rollup = require('rollup');
 const watch = require('rollup-watch');
 const resolve = require('rollup-plugin-node-resolve');
@@ -9,7 +8,11 @@ const sourcemaps = require('rollup-plugin-sourcemaps');
 const json = require('rollup-plugin-json');
 
 function formatLoc(loc) {
-  return `${loc.file}@${loc.line}:${loc.column}`;
+  if (loc) {
+    return `${loc.file}@${loc.line}:${loc.column}`;
+  } else {
+    return "build";
+  }
 }
 
 function watchEventHandler(event, filename) {
@@ -47,8 +50,8 @@ function bundleAndMaybeWatch(baseDirectory) {
       json(),
       commonjs({
         namedExports: {
-          'react': [ 'Component', 'PureComponent', 'createElement', 'Fragment' ],
-          'react-dom': [ 'render' ],
+          'react': [ 'Component', 'PureComponent', 'createElement', 'Fragment', 'Children', 'cloneElement', 'isValidElement' ],
+          'react-dom': [ 'render', 'unmountComponentAtNode', 'findDOMNode', 'createPortal' ],
           'tldjs': [ 'getDomain' ]
         }
       }),
@@ -56,7 +59,7 @@ function bundleAndMaybeWatch(baseDirectory) {
       builtins(),
       sourcemaps()
     ],
-    onwarn: (({ code, message, loc }) => {
+    onwarn: (({ message, loc }) => {
       console.warn(`${formatLoc(loc)}: ${message}`);
     })
   };
