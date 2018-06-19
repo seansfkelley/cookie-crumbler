@@ -1,4 +1,6 @@
-import { spread } from "../lang";
+import { findIndex } from "lodash-es";
+
+import { spread, isEqualT, replaceIndex } from "../lang";
 import { State, DomainWhitelistRule, LogBatch, Settings } from "./latest";
 
 export class StateService {
@@ -20,6 +22,18 @@ export class StateService {
         rule,
       ],
     }));
+  }
+
+  public editRule(oldRule: DomainWhitelistRule, newRule: DomainWhitelistRule) {
+    this.transition(state => {
+      const index = findIndex(state.rules, r => isEqualT(r, oldRule));
+      if (index === -1) {
+        throw new Error("could not file rule to replace");
+      }
+      return spread(state, {
+        rules: replaceIndex(state.rules, index, newRule),
+      })
+    });
   }
 
   public addLogBatch(log: LogBatch) {

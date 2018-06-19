@@ -4,6 +4,13 @@ import { DomainWhitelistRule, LogBatch } from "./state";
 import { getRootDomain, getHostname } from "./util";
 import { logger } from "./logger";
 
+export function matchingRules(domain: string, rules: DomainWhitelistRule[]) {
+  const normalizedDomain = domain.replace(/^\./, "");
+  return rules.filter(r =>
+    r.domain === normalizedDomain || (r.whitelistSubdomains && normalizedDomain.endsWith(r.domain))
+  );
+}
+
 export function shouldPreserve(domain: string, rules: DomainWhitelistRule[], openRootDomains: Set<string>) {
   const normalizedDomain = domain.replace(/^\./, "");
   return (

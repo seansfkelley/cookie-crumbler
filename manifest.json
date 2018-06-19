@@ -34,5 +34,6 @@
   },
   "icons": {
     "256": "icons/icon-256.png"
-  }
+  },
+  "content_security_policy": "script-src 'self' http://localhost:8097/"
 }
