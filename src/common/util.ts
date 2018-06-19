@@ -8,7 +8,11 @@ export function isIpAddress(hostname: string) {
 }
 
 export function getHostname(url: string) {
-  return new URL(url).hostname;
+  try {
+    return new URL(url).hostname;
+  } catch {
+    return undefined;
+  }
 }
 
 export function getRootDomain(hostname: string) {

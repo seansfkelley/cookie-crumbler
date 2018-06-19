@@ -3,6 +3,7 @@ import { values, sum } from "lodash-es";
 import { State, StateService } from "../common/state";
 import { deleteCookies } from "../common/deletion";
 import { logger } from "../common/logger";
+import { getHostname } from "../common/util";
 
 export class TabEventHandler {
   private cleanTimeoutId: number | undefined;
@@ -17,9 +18,19 @@ export class TabEventHandler {
     this.state = state;
   }
 
-  public onUpdatedListener = (_tabId: number, _info: chrome.tabs.TabChangeInfo, tab: chrome.tabs.Tab) => {
+  public onUpdatedListener = async (_tabId: number, _info: chrome.tabs.TabChangeInfo, tab: chrome.tabs.Tab) => {
     if (tab.status === "complete") {
-      // Count cookies and display them in the badge.
+      const cookies = await browser.cookies.getAll({
+        // Empty string -> no matches (usually).
+        domain: (tab.url ? getHostname(tab.url) : undefined) || "",
+      });
+
+      browser.browserAction.setBadgeText({
+        text: cookies.length.toString() || "",
+        tabId: tab.id,
+      });
+
+      // TODO: Update badge and icon.
     }
   }
 
