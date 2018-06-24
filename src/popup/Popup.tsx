@@ -27,11 +27,10 @@ export class Popup extends React.PureComponent<Props, {}> {
   private renderHeader() {
     const { enableAutomaticDeletion } = this.props.state.settings;
     return (
-      <div style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-      }}>
+      <div className="d-flex align-items-center justify-content-between mt-2 mx-3 mb-3">
+        <h5 className="mb-0">
+          Cookie Crumbler
+        </h5>
         <ButtonGroup>
           <Button
             icon={IconNames.POWER}
@@ -50,7 +49,9 @@ export class Popup extends React.PureComponent<Props, {}> {
           <Button
             icon={IconNames.COG}
             onClick={() => { browser.runtime.openOptionsPage(); }}
-          />
+          >
+            Settings
+          </Button>
         </ButtonGroup>
       </div>
     );
@@ -60,6 +61,7 @@ export class Popup extends React.PureComponent<Props, {}> {
     if (this.props.currentTab == null) {
       return (
         <NonIdealState
+          className="mb-2"
           visual={IconNames.REFRESH}
         />
       );
@@ -100,7 +102,7 @@ export class Popup extends React.PureComponent<Props, {}> {
       } else {
         return (
           <NonIdealState
-            visual={IconNames.CIRCLE}
+            className="mb-3"
             title="No Domain"
             description="The current tab doesn't have any host domain."
           />

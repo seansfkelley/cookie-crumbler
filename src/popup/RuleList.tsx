@@ -35,11 +35,23 @@ export class RuleList extends React.PureComponent<Props, {}> {
       <td>
         <Checkbox
           checked={rule.whitelistSubdomains}
+          onChange={() => {
+            this.props.editRule(rule, {
+              ...rule,
+              whitelistSubdomains: !rule.whitelistSubdomains,
+            });
+          }}
         />
       </td>
       <td>
         <Checkbox
           checked={rule.cleanOnBrowserRestart}
+          onChange={() => {
+            this.props.editRule(rule, {
+              ...rule,
+              cleanOnBrowserRestart: !rule.cleanOnBrowserRestart,
+            });
+          }}
         />
       </td>
       <td>
